@@ -4,9 +4,9 @@
         "Camera.Permission": "É necessário permissão para usar a câmera neste aplicativo",
         "Camera.Title": "Abrir Câmera",
         "Text.GrantPermission": "Conceder Permissão",
-        "Text.Home": "Página Inicial",
+        "Navbar.Home": "Página Inicial",
         "Text.Language": "Alterar Idioma",
         "Text.SelectLanguage": "Selecione um Idioma",
-        "Text.Settings": "Configurações"
+        "Navbar.Settings": "Configurações"
     }
 }
