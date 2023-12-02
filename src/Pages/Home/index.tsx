@@ -1,9 +1,12 @@
 import { BlurView } from "expo-blur";
 import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export function HomeScreen() {
+    const { t } = useTranslation();
+
     const [hasPermission, setHasPermission] = Camera.useCameraPermissions();
     const [isCameraVisible, setIsCameraVisible] = useState(false);
     const [scanned, setScanned] = useState(false);
@@ -23,13 +26,13 @@ export function HomeScreen() {
     if (!hasPermission) {
         return <View />;
     }
-    
+
     if (!hasPermission.granted) {
         return (
             <Modal animationType="slide" transparent={true}>
                 <View style={styles.PermissionModal}>
-                    <Text>É necessário permissão para usar a câmera neste aplicativo</Text>
-                    <Button onPress={setHasPermission} title="conceder permissão" />
+                    <Text>{t("Camera.Permission")}</Text>
+                    <Button onPress={setHasPermission} title={t("Text.GrantPermission")} />
                 </View>
             </Modal>
         );
@@ -58,7 +61,7 @@ export function HomeScreen() {
                                                 onPress={() => setIsCameraVisible(false)}
                                             ></TouchableOpacity>
                                             <Button
-                                                title="Simular leitura de código de barras"
+                                                title={t("Button.Barcode")}
                                                 onPress={() => simulateBarCodeScanned("EAN-13", "123456789012")}
                                             />
                                         </View>
@@ -70,7 +73,7 @@ export function HomeScreen() {
                 </TouchableOpacity>
             </Modal>
             <View>
-                <Button title="Abrir Câmera" onPress={() => setIsCameraVisible(true)} />
+                <Button title={t("Camera.Title")} onPress={() => setIsCameraVisible(true)} />
                 <View>
                     <Text>{scannedData}</Text>
                 </View>
