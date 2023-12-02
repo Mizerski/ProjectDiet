@@ -1,6 +1,7 @@
-import { readFileSync } from "fs";
 
-const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
+import { promises as fs } from "fs";
+
+const packageJson = JSON.parse(await fs.readFile("./package.json", "utf8"));
 
 const dependencies = {
   ...packageJson.dependencies,
@@ -15,3 +16,4 @@ for (const [name, version] of Object.entries(dependencies)) {
     process.exit(1);
   }
 }
+// teste

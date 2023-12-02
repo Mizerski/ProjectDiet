@@ -8,7 +8,7 @@ export default function HomeScreen() {
     const [isCameraVisible, setIsCameraVisible] = useState(false);
     const [scanned, setScanned] = useState(false);
     const [scannedData, setScannedData] = useState("");
-    const [_existingData, setExistingData] = useState([]);
+    const [, setExistingData] = useState([]);
 
     const fetchExistingData = async () => {
         try {
