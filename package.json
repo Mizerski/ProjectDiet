@@ -11,7 +11,6 @@
     "lint": "eslint .",
     "prepare": "husky install"
   },
-  "type": "module",
   "dependencies": {
     "@react-native-community/blur": " 4.3.2",
     "@react-navigation/bottom-tabs": " 6.5.11",
