@@ -1,3 +1,4 @@
+
 import { promises as fs } from "fs";
 
 const packageJson = JSON.parse(await fs.readFile("./package.json", "utf8"));
