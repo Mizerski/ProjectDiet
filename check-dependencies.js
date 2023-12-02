@@ -1,6 +1,6 @@
-const fs = require("fs");
+import { readFileSync } from "fs";
 
-const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
 
 const dependencies = {
   ...packageJson.dependencies,
