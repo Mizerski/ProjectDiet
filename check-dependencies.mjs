@@ -1,6 +1,6 @@
-const fs = require("fs");
+import { promises as fs } from "fs";
 
-const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+const packageJson = JSON.parse(await fs.readFile("./package.json", "utf8"));
 
 const dependencies = {
   ...packageJson.dependencies,
@@ -15,3 +15,4 @@ for (const [name, version] of Object.entries(dependencies)) {
     process.exit(1);
   }
 }
+// teste
