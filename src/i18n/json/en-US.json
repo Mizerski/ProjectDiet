@@ -1,0 +1,12 @@
+{
+    "translation": {
+        "Button.Barcode": "Read Barcode",
+        "Camera.Permission": "Permission is required to use the camera in this app",
+        "Camera.Title": "Open Camera",
+        "Navbar.Home": "Home",
+        "Navbar.Settings": "Settings",
+        "Text.GrantPermission": "Grant Permission",
+        "Text.Language": "Change Language",
+        "Text.SelectLanguage": "Select Language"
+    }
+}

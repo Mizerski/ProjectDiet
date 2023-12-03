@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "lint": "eslint .",
     "prepare": "husky install"
   },
@@ -33,7 +33,7 @@
     "react-test-renderer": " 18.2.0"
   },
   "devDependencies": {
-    "@babel/core": " 7.15.0",
+    "@babel/core": "7.15.0",
     "@testing-library/react-native": " 12.4.0",
     "@types/jest": " 29.5.10",
     "@types/react": " 18.2.14",

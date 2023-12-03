@@ -1,37 +1,37 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 import { ViewStyle, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import "../../i18n/i18n";
-import "intl-pluralrules";
 interface DropdownProps {
   items: { label: string; value: string }[];
-  placeholder: string;
+  placeholder?: string;
   style: ViewStyle;
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
   items,
   placeholder,
   style,
-}) => {
-  const { i18n } = useTranslation();
+  value,
+  onValueChange,
+}: DropdownProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(i18n.language);
   const [dropdownItems, setItems] = useState(items);
+  const [selectedValue, setSelectedValue] = useState(value);
 
   useEffect(() => {
-    i18n.changeLanguage(value);
-  }, [value]);
+    onValueChange(selectedValue);
+  }, [selectedValue]);
 
   return (
     <View style={style}>
       <DropDownPicker
         open={open}
-        value={value}
+        value={selectedValue}
         items={dropdownItems}
         setOpen={setOpen}
-        setValue={setValue}
+        setValue={setSelectedValue}
         setItems={setItems}
         placeholder={placeholder}
       />

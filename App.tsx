@@ -1,18 +1,28 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { HomeScreen } from "./src/Pages/Home";
 import { SettingsScreen } from "./src/Pages/Settings";
-import "intl-pluralrules";
+import "./src/i18n";
 
 const Tab = createBottomTabNavigator();
 
 function App() {
+  const { t } = useTranslation();
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: t("Navbar.Home") }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ title: t("Navbar.Settings") }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

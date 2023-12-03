@@ -1,21 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import enUS from "./json/en-US.json";
+import ptBR from "./json/pt-BR.json";
 import "intl-pluralrules";
-
 i18n.use(initReactI18next).init({
   resources: {
-    en: {
-      translation: {
-        "Welcome to React": "Welcome to React and react-i18next",
-      },
-    },
-    pt: {
-      translation: {
-        "Welcome to React": "Bem-vindo ao React e react-i18next",
-      },
-    },
+    "pt-BR": ptBR,
+    "en-US": enUS,
   },
-  lng: "en",
+  lng: "pt-BR",
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
