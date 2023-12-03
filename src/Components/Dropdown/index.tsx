@@ -1,43 +1,40 @@
 import { useEffect, useState } from "react";
-import { View, ViewStyle } from "react-native";
+import { ViewStyle, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-
 interface DropdownProps {
-    items: { label: string; value: string }[];
-    style: ViewStyle;
-    initialValue?: string;
-    placeholder?: string;
-    onChangeValue?: (value: string) => void;
+  items: { label: string; value: string }[];
+  placeholder?: string;
+  style: ViewStyle;
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
-    items,
-    initialValue,
-    placeholder,
-    style,
-    onChangeValue,
+  items,
+  placeholder,
+  style,
+  value,
+  onValueChange,
 }: DropdownProps) => {
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(initialValue);
-    const [dropdownItems, setItems] = useState(items);
+  const [open, setOpen] = useState(false);
+  const [dropdownItems, setItems] = useState(items);
+  const [selectedValue, setSelectedValue] = useState(value);
 
-    useEffect(() => {
-        if (value) {
-            onChangeValue?.(value);
-        }
-    }, [value]);
+  useEffect(() => {
+    onValueChange(selectedValue);
+  }, [selectedValue]);
 
-    return (
-        <View style={style}>
-            <DropDownPicker
-                open={open}
-                value={value || null}
-                items={dropdownItems}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
-                placeholder={placeholder}
-            />
-        </View>
-    );
+  return (
+    <View style={style}>
+      <DropDownPicker
+        open={open}
+        value={selectedValue}
+        items={dropdownItems}
+        setOpen={setOpen}
+        setValue={setSelectedValue}
+        setItems={setItems}
+        placeholder={placeholder}
+      />
+    </View>
+  );
 };

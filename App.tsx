@@ -13,8 +13,16 @@ function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name={t("Navbar.Home")} component={HomeScreen} />
-        <Tab.Screen name={t("Navbar.Settings")} component={SettingsScreen} />
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: t("Navbar.Home") }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ title: t("Navbar.Settings") }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
