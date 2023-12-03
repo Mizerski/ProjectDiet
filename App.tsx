@@ -8,16 +8,24 @@ import "./src/i18n";
 const Tab = createBottomTabNavigator();
 
 function App() {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    return (
-        <NavigationContainer>
-            <Tab.Navigator>
-                <Tab.Screen name={t("Text.Home")} component={HomeScreen} />
-                <Tab.Screen name={t("Text.Settings")} component={SettingsScreen} />
-            </Tab.Navigator>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: t("Navbar.Home") }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ title: t("Navbar.Settings") }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
 
 export default App;
