@@ -3,10 +3,10 @@
         "Button.Barcode": "Ler Código de Barras",
         "Camera.Permission": "É necessário permissão para usar a câmera neste aplicativo",
         "Camera.Title": "Abrir Câmera",
-        "Text.GrantPermission": "Conceder Permissão",
         "Navbar.Home": "Página Inicial",
+        "Navbar.Settings": "Configurações",
+        "Text.GrantPermission": "Conceder Permissão",
         "Text.Language": "Alterar Idioma",
-        "Text.SelectLanguage": "Selecione um Idioma",
-        "Navbar.Settings": "Configurações"
+        "Text.SelectLanguage": "Selecione um Idioma"
     }
 }
