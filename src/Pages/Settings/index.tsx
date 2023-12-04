@@ -1,19 +1,9 @@
-import { useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "../../Components/Dropdown";
-import { DataUser } from "../../hooks/Contexts";
+import { useLanguage } from "../../Hooks/Languages";
 
 export function SettingsScreen() {
-    const { t, i18n } = useTranslation();
-    const [language, setLanguage] = useState(i18n.language);
-    const { storage } = useContext(DataUser);
-
-    const handleLanguageChange = (value: string) => {
-        setLanguage(value);
-        i18n.changeLanguage(value);
-        storage.set("language", value);
-    };
+    const { t, language, handleLanguageChange } = useLanguage();
 
     return (
         <View style={styles.container}>
@@ -32,6 +22,7 @@ export function SettingsScreen() {
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
