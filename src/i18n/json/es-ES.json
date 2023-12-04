@@ -1,7 +1,12 @@
 {
     "translation": {
-        "Button.Barcode": "Lir codico de barrita",
-        "Camera.Permission": "Permiso de camera",
-        "Camera.Title": "Camera"
+        "Button.Barcode": "Leer código de barras",
+        "Camera.Permission": "Se requiere permiso para usar la cámara en esta aplicación",
+        "Camera.Title": "Cámara",
+        "Navbar.Home": "Inicio",
+        "Navbar.Settings": "Ajustes",
+        "Text.GrantPermission": "Conceder permiso",
+        "Text.Language": "Idioma",
+        "Text.SelectLanguage": "Seleccionar idioma"
     }
 }
