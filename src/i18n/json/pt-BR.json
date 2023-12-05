@@ -7,6 +7,9 @@
         "Navbar.Settings": "Configurações",
         "Text.GrantPermission": "Conceder Permissão",
         "Text.Language": "Alterar Idioma",
-        "Text.SelectLanguage": "Selecione um Idioma"
+        "Text.SelectLanguage": "Selecione um Idioma",
+        "Label.Spanish": "Espanhol",
+        "Label.English": "Inglês",
+        "Label.Portuguese": "Português"
     }
 }

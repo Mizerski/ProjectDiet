@@ -13,26 +13,33 @@ enableScreens();
 const Tab = createBottomTabNavigator();
 
 function App() {
-    const { t } = useTranslation();
-    const [isLanguageInitialized, setIsLanguageInitialized] = useState(false);
+  const { t } = useTranslation();
+  const [isLanguageInitialized, setIsLanguageInitialized] = useState(false);
 
-    useEffect(() => {
-        initializeLanguage() //
-            .then(() => setIsLanguageInitialized(true));
-    }, []);
+  useEffect(() => {
+    initializeLanguage().then(() => setIsLanguageInitialized(true));
+  }, []);
 
-    if (!isLanguageInitialized) {
-        return null;
-    }
+  if (!isLanguageInitialized) {
+    return null;
+  }
 
-    return (
-        <NavigationContainer>
-            <Tab.Navigator>
-                <Tab.Screen name="Home" component={HomeScreen} options={{ title: t("Navbar.Home") }} />
-                <Tab.Screen name="Settings" component={SettingsScreen} options={{ title: t("Navbar.Settings") }} />
-            </Tab.Navigator>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: t("Navbar.Home") }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ title: t("Navbar.Settings") }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
 
 export default App;
