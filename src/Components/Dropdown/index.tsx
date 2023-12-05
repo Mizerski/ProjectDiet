@@ -34,6 +34,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   return (
     <View style={style}>
       <DropDownPicker
+        testID="dropdown"
         open={open}
         value={selectedValue}
         items={dropdownItems}
