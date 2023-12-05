@@ -1,12 +1,15 @@
+import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
-import { ViewStyle, View } from "react-native";
+import { View, ViewStyle } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+
 interface DropdownProps {
   items: { label: string; value: string }[];
   placeholder?: string;
   style: ViewStyle;
   value: string;
   onValueChange: (value: string) => void;
+  t: TFunction;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -19,6 +22,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const [open, setOpen] = useState(false);
   const [dropdownItems, setItems] = useState(items);
   const [selectedValue, setSelectedValue] = useState(value);
+
+  useEffect(() => {
+    setItems(items);
+  }, [items]);
 
   useEffect(() => {
     onValueChange(selectedValue);
