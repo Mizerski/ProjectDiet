@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { userTable } from "../../../mock/db/user";
 import { emailRegex } from "../../Constants/Regex";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 type RootStackParamList = {
   Login: undefined;
@@ -18,7 +18,7 @@ type RootStackParamList = {
 };
 
 type LoginScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, "Login">;
+  navigation: StackNavigationProp<RootStackParamList, "Login">;
 };
 
 export function LoginScreen({ navigation }: LoginScreenProps) {
