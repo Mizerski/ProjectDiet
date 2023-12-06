@@ -6,13 +6,16 @@ import { enableScreens } from "react-native-screens";
 import { initializeLanguage } from "./src/Hooks/Languages";
 import { HomeScreen } from "./src/Pages/Home";
 import { SettingsScreen } from "./src/Pages/Settings";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LoginScreen } from "./src/Pages/Login";
 import "./src/i18n";
 
 enableScreens();
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-function App() {
+function Home() {
   const { t } = useTranslation();
   const [isLanguageInitialized, setIsLanguageInitialized] = useState(false);
 
@@ -25,19 +28,28 @@ function App() {
   }
 
   return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: t("Navbar.Home") }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ title: t("Navbar.Settings") }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+function App() {
+  return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: t("Navbar.Home") }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={SettingsScreen}
-          options={{ title: t("Navbar.Settings") }}
-        />
-      </Tab.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Redirect" component={Home} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
