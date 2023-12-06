@@ -1,4 +1,3 @@
-
 import { promises as fs } from "fs";
 
 const packageJson = JSON.parse(await fs.readFile("./package.json", "utf8"));
@@ -11,9 +10,8 @@ const dependencies = {
 for (const [name, version] of Object.entries(dependencies)) {
   if (version.startsWith("^") || version.startsWith("~")) {
     console.error(
-      `A dependência "${name}" não está usando uma versão fixa: "${version}"`
+      `A dependência "${name}" não está usando uma versão fixa: "${version}". Verifique no arquivo package.json.`
     );
     process.exit(1);
   }
 }
-// teste

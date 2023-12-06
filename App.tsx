@@ -8,15 +8,12 @@ import { HomeScreen } from "./src/Pages/Home";
 import { SettingsScreen } from "./src/Pages/Settings";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreen } from "./src/Pages/Login";
-
 import "./src/i18n";
 
 enableScreens();
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator()
-
-
+const Stack = createNativeStackNavigator();
 
 function Home() {
   const { t } = useTranslation();
@@ -54,7 +51,7 @@ function App() {
         <Stack.Screen name="Redirect" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
 
 export default App;
