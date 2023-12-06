@@ -42,7 +42,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
     if (emailExist && emailExist.password === password) {
       console.log(password);
       setWrongPassword(false);
-      navigation.navigate("Redirect");
+      navigation.replace('Redirect');
     }
     setWrongPassword(true);
   };
