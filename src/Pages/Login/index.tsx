@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { userTable } from "../../../mock/db/user";
-import { emailRegex } from "../../Constants/regex";
+import { emailRegex } from "../../Constants/Regex";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type RootStackParamList = {
