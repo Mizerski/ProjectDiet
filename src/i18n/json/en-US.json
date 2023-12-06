@@ -7,6 +7,9 @@
         "Navbar.Settings": "Settings",
         "Text.GrantPermission": "Grant Permission",
         "Text.Language": "Change Language",
-        "Text.SelectLanguage": "Select Language"
+        "Text.SelectLanguage": "Select Language",
+        "Label.Spanish": "Spanish",
+        "Label.English": "English",
+        "Label.Portuguese": "Portuguese"
     }
 }

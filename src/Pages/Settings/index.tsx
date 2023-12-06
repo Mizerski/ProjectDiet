@@ -1,34 +1,27 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "../../Components/Dropdown";
+import { useLanguage } from "../../Hooks/Languages";
+import { dropdownItems } from "../../Constants/DropdownItems";
 
 export function SettingsScreen() {
-  const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useState(i18n.language);
-
-  const handleLanguageChange = (value: string) => {
-    setLanguage(value);
-    i18n.changeLanguage(value);
-  };
+  const { t, language, handleLanguageChange } = useLanguage();
 
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.labelLanguageContainer}>{t("Text.Language")}</Text>
         <Dropdown
-          items={[
-            { label: "Português", value: "pt-BR" },
-            { label: "Inglês", value: "en-US" },
-          ]}
+          items={dropdownItems(t)}
           value={language}
           onValueChange={handleLanguageChange}
           style={{ width: "90%" }}
+          t={t}
         />
       </View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
