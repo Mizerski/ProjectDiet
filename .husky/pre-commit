@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-node check-dependencies.mjs && npm test && npm run lint
+if command -v yarn &> /dev/null
+then
+    yarn lint --fix && node check-dependencies.mjs && yarn test && yarn lint
+else
+    npm run lint -- --fix && node check-dependencies.mjs && npm test && npm run lint
+fi
