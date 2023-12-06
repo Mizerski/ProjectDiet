@@ -50,7 +50,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text>Digite seu email</Text>
+        <Text>Digite seu emaill</Text>
         <TextInput
           style={styles.emailInput}
           onChangeText={handleEmailInput}
