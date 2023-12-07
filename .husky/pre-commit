@@ -4,6 +4,10 @@
 if command -v yarn &> /dev/null
 then
     yarn lint --fix && node check-dependencies.mjs && yarn test && yarn lint
-else
+elif command -v npm &> /dev/null
+then
     npm run lint -- --fix && node check-dependencies.mjs && npm test && npm run lint
+else
+    echo "Nem o yarn nem o npm foram encontrados no seu sistema. Por favor, instale um deles e tente novamente."
+    exit 1
 fi
