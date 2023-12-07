@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { userTable } from "../../../mock/db/user";
 import LoginButton from "../../Components/LoginButton";
-// import { emailRegex } from "../../Constants/Regex";
+import { emailRegex } from "../../Constants/Regex";
 import { useNavigation } from "@react-navigation/native";
 
 export function LoginScreen() {
@@ -24,14 +24,16 @@ export function LoginScreen() {
   const noShowKeyBoard = () => Keyboard.dismiss()
   const navigation = useNavigation();
 
-  // const handleEmailInput = (props: string) => {
-  //   console.debug(props);
+  const handleEmailInput = () => {
+    if (!emailRegex.test(email)) {
+      console.debug("Email inválido");
+      return false
+    }
+    console.debug("Email valido");
 
-  //   if (!emailRegex.test(email)) {
-  //     console.debug("Email inválido");
-  //   }
-  //   setEmail(props);
-  // };
+    setEmail(email);
+    return true
+  };
 
   const verifyUser = () => {
     const emailExist = userTable.find((user) => {
@@ -47,7 +49,7 @@ export function LoginScreen() {
   };
 
   const moveFocusForNextInput = () => {
-    testPassword.current?.focus()
+    handleEmailInput() ? testPassword.current?.focus() : ""
   }
 
   return (
@@ -56,7 +58,7 @@ export function LoginScreen() {
         <View>
           <Text>Digite seu emaill</Text>
           <LoginButton
-            type="password"
+            type="email"
             setText={setEmail}
             textValue={email}
             ref={testEmail}
