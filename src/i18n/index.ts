@@ -6,16 +6,16 @@ import esES from "./json/es-ES.json";
 import ptBR from "./json/pt-BR.json";
 
 i18n.use(initReactI18next).init({
-    resources: {
-        "pt-BR": ptBR,
-        "en-US": enUS,
-        "es-ES": esES,
-    },
-    lng: "pt-BR",
-    fallbackLng: "en",
-    interpolation: {
-        escapeValue: false,
-    },
+  resources: {
+    "pt-BR": ptBR,
+    "en-US": enUS,
+    "es-ES": esES,
+  },
+  lng: "pt-BR",
+  fallbackLng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
 });
 
 export default i18n;

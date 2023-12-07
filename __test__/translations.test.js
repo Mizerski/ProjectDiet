@@ -1,6 +1,6 @@
-import { translation as enTranslations } from "../src/i18n/json/en-US.json";
-import { translation as ptTranslations } from "../src/i18n/json/pt-BR.json";
-import { translation as esTranslations } from "../src/i18n/json/es-ES.json";
+import { translation as enTranslations } from "@src/i18n/json/en-US.json";
+import { translation as ptTranslations } from "@src/i18n/json/pt-BR.json";
+import { translation as esTranslations } from "@src/i18n/json/es-ES.json";
 
 function checkMissingKeys(sourceKeys, targetKeys, sourceLang, targetLang) {
   const missingKeys = sourceKeys.filter((key) => !targetKeys.includes(key));

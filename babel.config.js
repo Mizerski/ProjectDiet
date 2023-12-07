@@ -9,6 +9,15 @@ module.exports = function (api) {
           version: "2.4.0",
         },
       ],
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "@src": "./src",
+          },
+        },
+      ],
     ],
   };
 };

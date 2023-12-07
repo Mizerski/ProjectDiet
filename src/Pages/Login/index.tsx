@@ -1,4 +1,3 @@
-//TODO:Resolver tipagem dos parametros de rotas
 import { useState } from "react";
 import {
   SafeAreaView,
@@ -8,9 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { userTable } from "../../../mock/db/user";
-import { emailRegex } from "../../Constants/Regex";
+import { emailRegex } from "@src/Constants/Regex";
 import { useNavigation } from "@react-navigation/native";
+import { userTable } from "mock/db/user";
 
 export function LoginScreen() {
   const [email, setEmail] = useState("");
