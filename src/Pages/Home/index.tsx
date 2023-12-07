@@ -3,6 +3,7 @@ import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TableItemsModal } from "../../Views/RegisterProduct/ModalOptions";
 
 export function HomeScreen() {
     const { t } = useTranslation();
@@ -10,18 +11,12 @@ export function HomeScreen() {
     const [hasPermission, setHasPermission] = Camera.useCameraPermissions();
     const [isCameraVisible, setIsCameraVisible] = useState(false);
     const [scanned, setScanned] = useState(false);
-    const [scannedData, setScannedData] = useState("");
+    const [scannedData] = useState<{ [label: string]: string }>({});
 
-    const handleBarCodeScanned = async ({ data }: { type: string; data: string }) => {
+    function handleBarCodeScanned() {
         setScanned(true);
-        setScannedData(data);
         setIsCameraVisible(false);
-        setScanned(false);
-    };
-
-    const simulateBarCodeScanned = (type: string, data: string) => {
-        handleBarCodeScanned({ type, data });
-    };
+    }
 
     if (!hasPermission) {
         return <View />;
@@ -62,7 +57,7 @@ export function HomeScreen() {
                                             ></TouchableOpacity>
                                             <Button
                                                 title={t("Button.Barcode")}
-                                                onPress={() => simulateBarCodeScanned("EAN-13", "123456789012")}
+                                                onPress={() => handleBarCodeScanned()}
                                             />
                                         </View>
                                     </Camera>
@@ -72,12 +67,32 @@ export function HomeScreen() {
                     </BlurView>
                 </TouchableOpacity>
             </Modal>
-            <View>
-                <Button title={t("Camera.Title")} onPress={() => setIsCameraVisible(true)} />
+            {scanned ? (
+                <TableItemsModal />
+            ) : (
+                // <RegisterProduct
+                //     handleClickBack={() => {
+                //         setScanned(false);
+                //         setScannedData({});
+                //     }}
+                //     handleClickConfirm={(values) => {
+                //         setScanned(false);
+                //         setScannedData(values);
+                //     }}
+                // />
                 <View>
-                    <Text>{scannedData}</Text>
+                    <Button title={t("Camera.Title")} onPress={() => setIsCameraVisible(true)} />
+                    {Object.entries(scannedData).map(([key, value], i) => {
+                        return (
+                            <View key={i} style={{ marginTop: 20 }}>
+                                <Text>
+                                    {key} - {value}
+                                </Text>
+                            </View>
+                        );
+                    })}
                 </View>
-            </View>
+            )}
         </View>
     );
 }

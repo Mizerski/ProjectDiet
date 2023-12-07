@@ -9,7 +9,7 @@ interface DropdownProps {
   style: ViewStyle;
   value: string;
   onValueChange: (value: string) => void;
-  t: TFunction;
+  t?: TFunction;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
