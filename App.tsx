@@ -9,7 +9,7 @@ import { HomeScreen } from "./src/Pages/Home";
 import { SettingsScreen } from "./src/Pages/Settings";
 import { LoginScreen } from "./src/Pages/Login";
 import "./src/i18n";
-
+import "./setupConsole";
 enableScreens();
 
 const Tab = createBottomTabNavigator();
@@ -45,8 +45,8 @@ function Home() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, }} >
-        <Stack.Screen name="Login" component={LoginScreen} options={{}} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Redirect" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
