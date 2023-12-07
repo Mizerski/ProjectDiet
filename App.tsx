@@ -1,5 +1,4 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from "@react-navigation/stack"
 import { NavigationContainer } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -14,7 +13,6 @@ import "./src/i18n";
 enableScreens();
 
 const Tab = createBottomTabNavigator();
-// const Stack = createNativeStackNavigator();
 const Stack = createStackNavigator();
 
 function Home() {
