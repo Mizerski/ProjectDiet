@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createStackNavigator } from "@react-navigation/stack"
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,11 +9,10 @@ import { HomeScreen } from "./src/Pages/Home";
 import { SettingsScreen } from "./src/Pages/Settings";
 import { LoginScreen } from "./src/Pages/Login";
 import "./src/i18n";
-
+import "./setupConsole";
 enableScreens();
 
 const Tab = createBottomTabNavigator();
-// const Stack = createNativeStackNavigator();
 const Stack = createStackNavigator();
 
 function Home() {
@@ -47,8 +45,8 @@ function Home() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, }} >
-        <Stack.Screen name="Login" component={LoginScreen} options={{}} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Redirect" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>

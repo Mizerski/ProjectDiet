@@ -10,27 +10,19 @@ import {
 } from "react-native";
 import { userTable } from "../../../mock/db/user";
 import { emailRegex } from "../../Constants/Regex";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Login: undefined;
-  Redirect: undefined;
-};
-
-type LoginScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Login">;
-};
-
-export function LoginScreen({ navigation }: LoginScreenProps) {
+export function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false);
+  const navigation = useNavigation();
 
   const handleEmailInput = (props: string) => {
-    console.log(props);
+    console.debug(props);
 
     if (!emailRegex.test(email)) {
-      console.log("Email inválido");
+      console.debug("Email inválido");
     }
     setEmail(props);
   };
@@ -40,9 +32,9 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
       return user.email === email.toLowerCase();
     });
     if (emailExist && emailExist.password === password) {
-      console.log(password);
+      console.debug(password);
       setWrongPassword(false);
-      navigation.replace('Redirect');
+      navigation.navigate("Redirect");
     }
     setWrongPassword(true);
   };
@@ -75,8 +67,8 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
   },
   emailInput: {
