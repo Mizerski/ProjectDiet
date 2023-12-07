@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { userTable } from "../../../mock/db/user";
-import { LoginButton } from "../../Components/LoginButton";
+import LoginButton from "../../Components/LoginButton";
 // import { emailRegex } from "../../Constants/Regex";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,7 +18,8 @@ export function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false);
-  const test = useRef(null)
+  const testEmail = useRef<TextInput>(null)
+  const testPassword = useRef<TextInput>(null)
 
   const noShowKeyBoard = () => Keyboard.dismiss()
   const navigation = useNavigation();
@@ -45,27 +46,29 @@ export function LoginScreen() {
     setWrongPassword(true);
   };
 
-  // const nextInputFocus = () => { }
-  console.log(test);
+  const moveFocusForNextInput = () => {
+    testPassword.current?.focus()
+  }
 
   return (
     <TouchableWithoutFeedback onPress={noShowKeyBoard} >
       <SafeAreaView style={styles.container}>
         <View>
           <Text>Digite seu emaill</Text>
-          <TextInput
-            onChangeText={setEmail}
-            value={email}
-            autoComplete="email"
-            autoFocus={true}
-            style={[styles.emailInput]}
-            ref={test}
+          <LoginButton
+            type="password"
+            setText={setEmail}
+            textValue={email}
+            ref={testEmail}
+            onSubmitEditing={moveFocusForNextInput}
           />
           <Text>Digite sua senha</Text>
           <LoginButton
             type="password"
             setText={setPassword}
-            textValue={password} />
+            textValue={password}
+            ref={testPassword}
+          />
         </View>
         {wrongPassword ? <Text>Senha incorreta</Text> : <></>}
         <TouchableOpacity style={styles.btnLogin} onPress={verifyUser}>
