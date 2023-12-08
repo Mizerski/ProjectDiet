@@ -17,40 +17,38 @@ import { useNavigation } from "@react-navigation/native";
 export function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [btnLoginActive, setbtnLoginActive] = useState(false);
+  const [errorInput, setErrorInput] = useState(false);
+  const [userNotFind, setUserNotFind] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
-  const testEmail = useRef<TextInput>(null)
   const testPassword = useRef<TextInput>(null)
 
-  const noShowKeyBoard = () => Keyboard.dismiss()
   const navigation = useNavigation();
-
-  const handleEmailInput = () => {
-    if (!emailRegex.test(email)) {
-      console.debug("Email inválido");
-      return false
-    }
-    console.debug("Email valido");
-
-    setEmail(email);
-    return true
-  };
-
+  const noShowKeyBoard = () => Keyboard.dismiss()
+  const formatValid = () => {
+    email.length && !emailRegex.test(email) ? setErrorInput(true) : setErrorInput(false)
+    emailRegex.test(email) && password.length > 4 ? setbtnLoginActive(true) : setbtnLoginActive(false)
+  }
+  const moveFocusForNextInput = () => testPassword.current?.focus()
   const verifyUser = () => {
-    const emailExist = userTable.find((user) => {
-      return user.email === email.toLowerCase();
-    });
-    if (emailExist && emailExist.password === password) {
-      console.debug(password);
-      setWrongPassword(false);
+    if (btnLoginActive) {
+      const emailExist = userTable.find((user) => {
+        return user.email === email.toLowerCase();
+      });
+      if (!emailExist) {
+        return setUserNotFind(true)
+      }
+
+      if (emailExist.password !== password) {
+        console.debug(password);
+        return setWrongPassword(true)
+      }
+      setUserNotFind(false)
+      setWrongPassword(false)
+      setPassword("")
       navigation.navigate("Redirect");
     }
-    setPassword("")
-    setWrongPassword(true);
   };
-
-  const moveFocusForNextInput = () => {
-    handleEmailInput() ? testPassword.current?.focus() : ""
-  }
 
   return (
     <TouchableWithoutFeedback onPress={noShowKeyBoard} >
@@ -61,19 +59,24 @@ export function LoginScreen() {
             type="email"
             setText={setEmail}
             textValue={email}
-            ref={testEmail}
             onSubmitEditing={moveFocusForNextInput}
+            onBlur={formatValid}
+            newStyle={[errorInput ? styles.errorInput : undefined]}
           />
           <Text>Digite sua senha</Text>
           <LoginButton
             type="password"
             setText={setPassword}
+            onBlur={formatValid}
             textValue={password}
             ref={testPassword}
           />
         </View>
-        {wrongPassword ? <Text>Senha incorreta</Text> : <></>}
-        <TouchableOpacity style={styles.btnLogin} onPress={verifyUser}>
+        {userNotFind && wrongPassword}
+        <TouchableOpacity
+          style={[styles.button, btnLoginActive ? styles.activeButton : styles.inactiveButton]}
+          onPress={verifyUser}
+          disabled={!btnLoginActive}>
           <Text style={styles.buttonLoginText}>Login</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -101,13 +104,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  emailInput: {
-    marginTop: 10,
+  button: {
     padding: 10,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 5,
-    width: 300,
+    margin: 10,
+  },
+  activeButton: {
+    backgroundColor: '#3498db',
+  },
+  inactiveButton: {
+    backgroundColor: '#ccc',
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  errorInput: {
+    borderColor: 'red',
+    borderWidth: 2,
   },
 });

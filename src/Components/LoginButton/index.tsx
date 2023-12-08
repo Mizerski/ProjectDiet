@@ -10,7 +10,7 @@ import {
     TextInput,
     TextInputProps,
     ViewStyle,
-    TextInput as RNTextInput, // Renomeando para evitar conflito de nome
+    TextInput as RNTextInput,
 } from "react-native";
 
 interface LoginButtonProps extends Omit<TextInputProps, 'ref'> {
@@ -18,12 +18,15 @@ interface LoginButtonProps extends Omit<TextInputProps, 'ref'> {
     setText: Dispatch<SetStateAction<string>>;
     textValue: string;
     newStyle?: StyleProp<ViewStyle>;
+
 }
+
 
 const LoginButton: ForwardRefRenderFunction<RNTextInput, LoginButtonProps> = (
     { type, setText, textValue, newStyle, ...props },
     ref
 ) => {
+
     switch (type) {
         case "email":
             return (
@@ -31,8 +34,7 @@ const LoginButton: ForwardRefRenderFunction<RNTextInput, LoginButtonProps> = (
                     onChangeText={setText}
                     value={textValue}
                     autoComplete="email"
-                    autoFocus={true}
-                    style={[newStyle, styles.emailInput]}
+                    style={[styles.emailInput, newStyle]}
                     {...props}
                     ref={ref}
                 />
@@ -44,7 +46,7 @@ const LoginButton: ForwardRefRenderFunction<RNTextInput, LoginButtonProps> = (
                     value={textValue}
                     secureTextEntry={true}
                     autoComplete="password"
-                    style={[newStyle, styles.emailInput]}
+                    style={[styles.emailInput, newStyle]}
                     {...props}
                     ref={ref}
                 />
@@ -68,9 +70,13 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 16,
         borderWidth: 1,
-        borderColor: "#ccc",
         borderRadius: 5,
         width: 300,
+        borderColor: "#ccc",
+    },
+    errorInput: {
+        borderColor: "red",
+        boxShadow: "0 0 5px red",
     },
 });
 
