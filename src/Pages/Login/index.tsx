@@ -89,14 +89,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-  btnLogin: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: "#f333",
-    borderRadius: 5,
-    alignItems: "center",
-    width: 100,
-  },
   buttonLoginText: {
     color: "white",
     fontSize: 18,
@@ -112,11 +104,6 @@ const styles = StyleSheet.create({
   },
   inactiveButton: {
     backgroundColor: '#ccc',
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold',
   },
   errorInput: {
     borderColor: 'red',
