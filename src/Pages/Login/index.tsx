@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { emailRegex } from "@src/Constants/Regex";
 import { useNavigation } from "@react-navigation/native";
-import { userTable } from "mock/db/user";
+import axios from "axios";
 
 export function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -27,15 +27,32 @@ export function LoginScreen() {
   };
 
   const verifyUser = () => {
-    const emailExist = userTable.find((user) => {
-      return user.email === email.toLowerCase();
-    });
-    if (emailExist && emailExist.password === password) {
-      console.debug(password);
-      setWrongPassword(false);
-      navigation.navigate("Redirect");
-    }
-    setWrongPassword(true);
+    axios
+      .post("http://10.0.2.2:5000/login", {
+        email,
+        password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setWrongPassword(false);
+          console.debug(response.data.message);
+          navigation.navigate("Redirect");
+        } else {
+          setWrongPassword(true);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.error("Data:", error.response.data);
+          console.error("Status:", error.response.status);
+          console.error("Headers:", error.response.headers);
+        } else if (error.request) {
+          console.error("Request:", error.request);
+        } else {
+          console.error("Message:", error.message);
+        }
+        console.error("Config:", error.config);
+      });
   };
 
   return (
