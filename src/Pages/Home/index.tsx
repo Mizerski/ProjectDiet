@@ -68,7 +68,7 @@ export function HomeScreen() {
                 </TouchableOpacity>
             </Modal>
             {scanned ? (
-                <TableItemsModal />
+                <TableItemsModal closeModal={() => setScanned(false)} />
             ) : (
                 // <RegisterProduct
                 //     handleClickBack={() => {

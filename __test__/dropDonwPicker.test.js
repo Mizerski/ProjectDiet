@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import { Dropdown } from "../src/Components/Dropdown";
+import { Dropdown } from "@src/Components/Dropdown";
 
 describe("Dropdown", () => {
   it("renders correctly", () => {

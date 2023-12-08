@@ -1,9 +1,9 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { Button, ScrollView, StyleSheet, View } from "react-native";
+import { initialProducts } from "../../../mock/Products/Products";
 import { Dropdown } from "../../Components/Dropdown";
 import { InputText } from "../../Components/Inputs/InputText";
-import { initialProducts } from "../../Mock/Products";
 
 export interface IProduct {
     productCode: number;
@@ -105,8 +105,8 @@ export function RegisterProduct({ handleClickBack, handleClickConfirm }: IRegist
                 <View style={styles.backButton}>
                     <Button color={"red"} title="Voltar" onPress={handleClickBack} />
                 </View>
-                <View style={styles.confirmButton}>
-                    <Button color={"green"} title="Cadastrar" onPress={() => handleConfirm} />
+                <View style={styles.registerButton}>
+                    <Button color={"green"} title="Registrar" onPress={() => handleConfirm} />
                 </View>
             </View>
         </View>
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 12,
         gap: 12,
     },
-    confirmButton: {
+    registerButton: {
         height: 40,
         width: "50%",
     },
