@@ -14,13 +14,13 @@ import LoginButton from "../../Components/LoginButton";
 import { emailRegex } from "../../Constants/Regex";
 import { useNavigation } from "@react-navigation/native";
 
+
 export function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [btnLoginActive, setbtnLoginActive] = useState(false);
   const [errorInput, setErrorInput] = useState(false);
-  const [userNotFind, setUserNotFind] = useState(false);
-  const [wrongPassword, setWrongPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
   const testPassword = useRef<TextInput>(null)
 
   const navigation = useNavigation();
@@ -36,16 +36,14 @@ export function LoginScreen() {
         return user.email === email.toLowerCase();
       });
       if (!emailExist) {
-        return setUserNotFind(true)
+        return setErrorMessage("Usuario não encotrado")
       }
 
       if (emailExist.password !== password) {
         console.debug(password);
-        return setWrongPassword(true)
+        return setErrorMessage("Senha incorreta")
       }
-      setUserNotFind(false)
-      setWrongPassword(false)
-      setPassword("")
+      setErrorMessage("")
       navigation.navigate("Redirect");
     }
   };
@@ -72,7 +70,7 @@ export function LoginScreen() {
             ref={testPassword}
           />
         </View>
-        {userNotFind && wrongPassword}
+        {errorMessage !== "" && <Text>{errorMessage}</Text>}
         <TouchableOpacity
           style={[styles.button, btnLoginActive ? styles.activeButton : styles.inactiveButton]}
           onPress={verifyUser}
