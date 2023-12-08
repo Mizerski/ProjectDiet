@@ -1,114 +1,69 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { BlurView } from "expo-blur";
 import { useState } from "react";
-import { Button, ScrollView, StyleSheet, View } from "react-native";
-import { initialProducts } from "../../../mock/Products/Products";
-import { Dropdown } from "../../Components/Dropdown";
+import { Button, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { InputText } from "../../Components/Inputs/InputText";
 
-export interface IProduct {
-    productCode: number;
-    quantidadeDaPorcao: string;
-    carboidratos?: string;
-    fibraAlimentar?: string;
-    gordurasSaturadas?: string;
-    gordurasTotais?: string;
-    gordurasTrans?: string;
-    proteinas?: string;
-    sodio?: string;
-    valorEnergetico?: string;
-}
-
 export interface IRegisterProduct {
-    handleClickConfirm: (values: { [label: string]: string }) => void;
+    products: string[];
     handleClickBack: () => void;
+    handleClickRegister: (inputValues: { [label: string]: string }) => void;
 }
 
-export const Measures = ["g", "mg", "kJ", "kcal"];
-
-export function RegisterProduct({ handleClickBack, handleClickConfirm }: IRegisterProduct) {
-    const [labelsList, setLabelsList] = useState<{ label: string; value: string }[]>(initialProducts);
-    const [labels, setLabels] = useState<string[]>([]);
-    const [selectedLabel, setSelectedLabel] = useState<string>("");
+export function RegisterProduct({ products, handleClickBack, handleClickRegister }: IRegisterProduct) {
     const [inputValues, setInputValues] = useState<{ [label: string]: string }>({});
 
-    function handleConfirm() {
-        if (labels.length === 0) return;
-        if (labels.length !== Object.keys(inputValues).length) return;
-
-        handleClickConfirm(inputValues);
-        resetValues();
-    }
-
-    function resetValues() {
-        setLabelsList(initialProducts);
-        setLabels([]);
-        setSelectedLabel("");
-        setInputValues({});
+    function filterLabel(value: string) {
+        const regex = /[^0-9.,]/g;
+        return value.replace(regex, "") || "";
     }
 
     function handleInputChange(label: string, value: string) {
-        setInputValues((prevValues) => ({
-            ...prevValues,
-            [label]: value,
-        }));
-    }
-
-    function handleAddLabel(label: string) {
-        if (label === "") return;
-        setLabels([...labels, label]);
-        setLabelsList(labelsList.filter((item) => item.label !== label));
-        setSelectedLabel("");
-    }
-
-    function removeLabel(label: string) {
-        const valueLabel = initialProducts.find((item) => item.label === label)?.value;
-        if (valueLabel) {
-            setLabels(labels.filter((item) => item !== label));
-            setLabelsList([...labelsList, { label, value: label }]);
-            setSelectedLabel(label);
-        }
+        setInputValues((prevValues) => {
+            return {
+                ...prevValues,
+                [label]: filterLabel(value),
+            };
+        });
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.dropdown}>
-                <Dropdown
-                    items={labelsList}
-                    onValueChange={(value) => {
-                        const item = labelsList.find((item) => item.value === value);
-                        setSelectedLabel(item?.label || "");
-                    }}
-                    style={{ width: "80%" }}
-                    value=""
-                />
-                <View style={styles.addButton}>
-                    <Button title="+" onPress={() => handleAddLabel(selectedLabel)} />
-                </View>
-            </View>
-
-            <ScrollView style={styles.scrollView}>
-                {labels.map((label, i) => {
-                    return (
-                        <View key={i} style={styles.viewLabels}>
-                            <InputText
-                                placeholder="valor da medida"
-                                label={label}
-                                value={inputValues[label] || ""}
-                                onChange={(e) => handleInputChange(label, e)}
-                            />
-                            <Ionicons name="trash" size={32} color="red" onPress={() => removeLabel(label)} />
+            <Modal visible={true} animationType="slide" transparent={true}>
+                <TouchableOpacity style={styles.modalContainer} activeOpacity={1} onPressOut={() => {}}>
+                    <BlurView intensity={10} tint="light" style={styles.absolute}>
+                        <View style={styles.backgroundModalContainer}>
+                            <ScrollView style={styles.scrollView}>
+                                {products.map((label, i) => {
+                                    return (
+                                        <View key={i} style={styles.viewLabels}>
+                                            <InputText
+                                                placeholder="valor da medida"
+                                                label={label}
+                                                value={inputValues[label] || ""}
+                                                onChange={(e) => handleInputChange(label, e)}
+                                            />
+                                            <Ionicons name="trash" size={32} color="red" />
+                                        </View>
+                                    );
+                                })}
+                            </ScrollView>
+                            <View style={styles.buttons}>
+                                <View style={styles.backButton}>
+                                    <Button color={"red"} title="Voltar" onPress={handleClickBack} />
+                                </View>
+                                <View style={styles.registerButton}>
+                                    <Button
+                                        color={"green"}
+                                        title="Registrar"
+                                        onPress={() => handleClickRegister(inputValues)}
+                                    />
+                                </View>
+                            </View>
                         </View>
-                    );
-                })}
-            </ScrollView>
-            <View style={styles.buttons}>
-                <View style={styles.backButton}>
-                    <Button color={"red"} title="Voltar" onPress={handleClickBack} />
-                </View>
-                <View style={styles.registerButton}>
-                    <Button color={"green"} title="Registrar" onPress={() => handleConfirm} />
-                </View>
-            </View>
+                    </BlurView>
+                </TouchableOpacity>
+            </Modal>
         </View>
     );
 }
@@ -118,6 +73,11 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "90%",
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
     dropdown: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -126,15 +86,24 @@ const styles = StyleSheet.create({
         marginHorizontal: 12,
         gap: 12,
     },
-    addButton: {
-        width: 40,
+    backgroundModalContainer: {
+        backgroundColor: "pink",
+    },
+    absolute: {
+        flex: 1,
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 30,
+        paddingVertical: 60,
     },
     scrollView: {
-        flex: 1,
-        width: "100%",
-        gap: 20,
-        // backgroundColor: "pink",
         marginVertical: 10,
+    },
+    addButton: {
+        width: 40,
     },
     viewLabels: {
         flex: 1,
@@ -146,7 +115,7 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        marginVertical: 6,
+        marginVertical: 10,
         marginHorizontal: 12,
         gap: 12,
     },
@@ -159,3 +128,4 @@ const styles = StyleSheet.create({
         width: "50%",
     },
 });
+1;

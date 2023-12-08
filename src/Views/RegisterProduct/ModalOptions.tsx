@@ -1,15 +1,17 @@
 import { BlurView } from "expo-blur";
 import { useState } from "react";
-import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Button, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import { initialProducts } from "../../../mock/Products/Products";
 import { CheckBox } from "../../Components/CheckBox";
 
 export interface ITableItemsModal {
+    items: string[];
     closeModal: () => void;
+    handleClickConfirm: (items: string[]) => void;
 }
 
-export function TableItemsModal({ closeModal }: ITableItemsModal) {
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+export function TableItemsModal({ items, closeModal, handleClickConfirm }: ITableItemsModal) {
+    const [selectedItems, setSelectedItems] = useState<string[]>([...items] || []);
     const [selectAll, setSelectAll] = useState(false);
 
     function selectAllItems() {
@@ -64,6 +66,9 @@ export function TableItemsModal({ closeModal }: ITableItemsModal) {
                                         isChecked={checkIsChecked(label)}
                                     />
                                 ))}
+                                <View style={styles.continueButton}>
+                                    <Button title="Continuar" onPress={() => handleClickConfirm(selectedItems)} />
+                                </View>
                             </View>
                         </BlurView>
                     </View>
@@ -98,5 +103,12 @@ const styles = StyleSheet.create({
         height: "60%",
         justifyContent: "center",
         paddingHorizontal: "5%",
+    },
+    continueButton: {
+        flex: 1,
+        position: "absolute",
+        bottom: -24,
+        width: "80%",
+        alignSelf: "center",
     },
 });

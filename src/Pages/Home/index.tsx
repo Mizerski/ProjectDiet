@@ -1,3 +1,4 @@
+import { RegisterProduct } from "@src/Views/RegisterProduct";
 import { BlurView } from "expo-blur";
 import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
@@ -11,7 +12,13 @@ export function HomeScreen() {
     const [hasPermission, setHasPermission] = Camera.useCameraPermissions();
     const [isCameraVisible, setIsCameraVisible] = useState(false);
     const [scanned, setScanned] = useState(false);
-    const [scannedData] = useState<{ [label: string]: string }>({});
+    const [scannedData, setScannedData] = useState<{ [label: string]: string }>({});
+    const [tableItemsSelected, setTableItemsSelected] = useState<string[]>([]);
+
+    function resetValues() {
+        setScanned(false);
+        setTableItemsSelected([]);
+    }
 
     function handleBarCodeScanned() {
         setScanned(true);
@@ -68,18 +75,27 @@ export function HomeScreen() {
                 </TouchableOpacity>
             </Modal>
             {scanned ? (
-                <TableItemsModal closeModal={() => setScanned(false)} />
+                <TableItemsModal
+                    items={tableItemsSelected}
+                    closeModal={resetValues}
+                    handleClickConfirm={(itemsSelected) => {
+                        setScanned(false);
+                        setTableItemsSelected(itemsSelected);
+                    }}
+                />
+            ) : tableItemsSelected.length ? (
+                <RegisterProduct
+                    products={tableItemsSelected}
+                    handleClickBack={() => {
+                        setScanned(true);
+                    }}
+                    handleClickRegister={(inputValues) => {
+                        setScanned(false);
+                        setTableItemsSelected([]);
+                        setScannedData(inputValues);
+                    }}
+                />
             ) : (
-                // <RegisterProduct
-                //     handleClickBack={() => {
-                //         setScanned(false);
-                //         setScannedData({});
-                //     }}
-                //     handleClickConfirm={(values) => {
-                //         setScanned(false);
-                //         setScannedData(values);
-                //     }}
-                // />
                 <View>
                     <Button title={t("Camera.Title")} onPress={() => setIsCameraVisible(true)} />
                     {Object.entries(scannedData).map(([key, value], i) => {
