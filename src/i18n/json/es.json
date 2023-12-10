@@ -1,5 +1,5 @@
 {
-    "translation": {
+    "es": {
         "Button.Barcode": "Leer código de barras",
         "Camera.Permission": "Se requiere permiso para usar la cámara en esta aplicación",
         "Camera.Title": "Cámara",
@@ -10,6 +10,7 @@
         "Text.SelectLanguage": "Seleccionar idioma",
         "Label.Spanish": "Español",
         "Label.English": "Inglés",
-        "Label.Portuguese": "Portuguese"
+        "Label.Portuguese": "Portuguese",
+        "Login.Submit": "Iniciar sesión"
     }
 }
