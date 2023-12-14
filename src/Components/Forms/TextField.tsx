@@ -12,6 +12,13 @@ import { getMandatoryLabel, BaseStyle } from "./Base/BaseFormField";
 import Colors from "../../../assets/styles/Colors";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
+interface CustomStyle {
+  fieldContainer?: ViewStyle;
+  inputField?: ViewStyle;
+  errorMessage?: ViewStyle;
+  fieldLabel?: ViewStyle;
+}
+
 interface FormFieldProps<T extends string> {
   form: CForm<T>;
   label: string;
@@ -25,7 +32,7 @@ interface FormFieldProps<T extends string> {
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
   placeholder?: string;
-  customStyle?: StyleSheet.NamedStyles<any>;
+  customStyle?: StyleSheet.NamedStyles<CustomStyle>;
   inputContainerStyle?: ViewStyle;
 }
 
@@ -63,7 +70,7 @@ class FGTextField<T extends string> extends React.Component<FormFieldProps<T>> {
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           onChangeText={(text) => form.updateField(setFormData, field, text)}
-          placeholderTextColor={Colors.newGray}
+          placeholderTextColor={Colors.gray}
           placeholder={placeholder}
           style={[
             defaultInputFieldStyle,
@@ -83,7 +90,7 @@ class FGTextField<T extends string> extends React.Component<FormFieldProps<T>> {
   }
 }
 
-const styles: StyleSheet.NamedStyles<any> = StyleSheet.create({
+const styles: StyleSheet.NamedStyles<CustomStyle> = StyleSheet.create({
   ...BaseStyle.errorMessage,
   ...BaseStyle.fieldContainer,
   ...BaseStyle.fieldLabel,

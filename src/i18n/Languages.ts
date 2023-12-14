@@ -2,10 +2,14 @@ import "intl-pluralrules";
 import pt from "./json/pt.json";
 import en from "./json/en.json";
 import es from "./json/es.json";
+interface Translation {
+  [key: string]: string;
+}
 
 export type SupportedLanguage = "pt" | "en" | "es";
-
-type LanguageResource = { [p in SupportedLanguage]: { translation: any } };
+type LanguageResource = {
+  [p in SupportedLanguage]: { translation: Translation };
+};
 
 function getLanguageResources(): LanguageResource {
   return {

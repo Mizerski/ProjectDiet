@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
@@ -26,12 +32,10 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
 
   let title = submitText;
   let buttonColor: string;
-  let textColor: string;
   let borderColor: string;
 
   if (isLoading || disabled) {
     buttonColor = Colors.gray;
-    textColor = Colors.black;
     borderColor = Colors.gray;
     if (isLoading) {
       title = loadingText || t("loading");
@@ -40,25 +44,21 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
     switch (type) {
       case "danger": {
         buttonColor = Colors.white;
-        textColor = Colors.alert_red;
         borderColor = Colors.alert_red;
         break;
       }
       case "action": {
         buttonColor = Colors.white;
-        textColor = Colors.black;
         borderColor = Colors.black;
         break;
       }
       case "submit": {
         buttonColor = Colors.main_green;
-        textColor = Colors.white;
         borderColor = Colors.main_green;
         break;
       }
       case "busy": {
         buttonColor = Colors.alert_red;
-        textColor = Colors.white;
         borderColor = Colors.alert_red;
         break;
       }
@@ -76,7 +76,23 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
       activeOpacity={0.7}
       disabled={disabled}
     >
-      <Text style={[styles.text]}>{title}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.black}
+            style={{ marginLeft: 20 }}
+            size={20}
+          />
+        ) : (
+          <Text style={[styles.text]}>{title}</Text>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };

@@ -11,6 +11,15 @@
         "Label.Spanish": "Español",
         "Label.English": "Inglés",
         "Label.Portuguese": "Portuguese",
-        "Login.Submit": "Iniciar sesión"
+        "Login.Submit": "Iniciar sesión",
+        "Login.Email": "Correo electrónico",
+        "Login.Password": "Contraseña",
+        "Login.ForgotPassword": "¿Olvidaste tu contraseña?",
+        "Login.Register": "Registrarse",
+        "Login.Error": "Error de inicio de sesión",
+        "Login.Error.Email": "Correo electrónico inválido",
+        "Login.Error.Password": "Contraseña inválida",
+        "Error.Required": "Este campo es obligatorio",
+        "Error": "Error"
     }
 }

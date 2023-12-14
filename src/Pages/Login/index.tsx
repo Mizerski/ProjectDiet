@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { Alert, SafeAreaView, StyleSheet } from "react-native";
 import { userTable } from "../../../mock/db/user";
 import { useNavigation } from "@react-navigation/native";
 import { CForm, TFormData, TFormErrors } from "../../Classes/Form";
@@ -15,6 +15,7 @@ import CTextField from "../../Components/Forms/TextField";
 import LoadingButton from "../../Components/Buttons/ButtonLoading";
 import Colors from "../../../assets/styles/Colors";
 import { FormItemContainer } from "../../Components/Forms/FormContainer";
+import { IUser } from "../../Interface/User";
 
 export function LoginScreen() {
   const { t } = useTranslation();
@@ -52,7 +53,7 @@ export function LoginScreen() {
       [LoginFormFields.EMAIL, LoginFormFields.PASSWORD],
       {
         [LoginFormFields.EMAIL]: () =>
-          isEmailValid(formData.email as string) ? "" : t("invalidEmail"),
+          isEmailValid(formData.email as string) ? "" : t("Login.Error.Email"),
       }
     );
   }, [formData.email, t]);
@@ -65,27 +66,22 @@ export function LoginScreen() {
     form.updateField(setFormData, LoginFormFields.PASSWORD, "");
   };
 
-  const onLoginSuccess = async (response: any) => {
+  const onLoginSuccess = async (user: Partial<IUser>) => {
     setIsLoading(false);
 
-    const token = response.data.token;
-    const userId = response.data.user_id;
-    await storeToken(
-      token,
-      formData.rememberMe as boolean,
-      formData.email as string,
-      userId
-    );
+    const token = user.token || "token_simulado";
+    const userId = user.id;
 
-    cleanLoginForm();
-
-    navigation.navigate("Home");
-  };
-
-  const onLoginError = (error: any) => {
-    setIsLoading(false);
-    setHasError(true);
-    console.log(error);
+    if (token && userId) {
+      await storeToken(
+        token,
+        formData.rememberMe as boolean,
+        formData.email as string,
+        userId
+      );
+      cleanLoginForm();
+      navigation.navigate("MainTab", { screen: "HomeScreen" });
+    }
   };
 
   const validateForm = useCallback(() => {
@@ -129,15 +125,19 @@ export function LoginScreen() {
     setIsLoading(true);
     const user = userTable.find(
       (user) =>
-        user.email === formData.email && user.password === formData.password
+        typeof formData.email === "string" &&
+        typeof formData.password === "string" &&
+        user.email.toLowerCase() === formData.email.toLowerCase() &&
+        user.password.toLowerCase() === formData.password.toLowerCase()
     );
     if (user) {
       onLoginSuccess(user);
     } else {
-      onLoginError("Usuário não encontrado");
+      Alert.alert(t("Error"), t("Login.Error"));
+      setIsLoading(false);
+      setHasError(true);
     }
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <FormItemContainer>
@@ -150,14 +150,14 @@ export function LoginScreen() {
           formErrors={formErrors}
           keyboardType="email-address"
           isMandatory={true}
-          placeholder="Digite seu email"
+          placeholder={t("Login.Email")}
           inputContainerStyle={{
             height: 50,
           }}
         />
         <CTextField
           form={form}
-          placeholder="Digite sua senha"
+          placeholder={t("Login.Password")}
           label={"Password"}
           formData={formData}
           secureTextEntry={true}

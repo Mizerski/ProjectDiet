@@ -11,6 +11,16 @@
         "Label.Spanish": "Espanhol",
         "Label.English": "Inglês",
         "Label.Portuguese": "Português",
-        "Login.Submit": "Entrar"
+        "Login.Submit": "Entrar",
+        "Login.Email": "E-mail",
+        "Login.Password": "Senha",
+        "Login.ForgotPassword": "Esqueceu a senha?",
+        "Login.Register": "Registrar",
+        "Login.Error": "E-mail ou senha incorretos",
+        "Login.Error.Email": "E-mail inválido",
+        "Login.Error.Password": "Senha inválida",
+        "Error.Required": "Campo obrigatório",
+        "Error": "Erro"
+
     }
 }

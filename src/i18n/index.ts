@@ -2,11 +2,7 @@ import "intl-pluralrules";
 import i18n, { TFunction } from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import {
-  SupportedLanguage,
-  // getLanguageResourceTags,
-  getLanguageResources,
-} from "./Languages";
+import { SupportedLanguage, getLanguageResources } from "./Languages";
 
 const DEFAULT_LANGUAGE_TAG = "en";
 

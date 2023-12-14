@@ -1,6 +1,8 @@
 import { TranslateFunc } from "../i18n";
 import { Dispatch, SetStateAction } from "react";
 
+type FailedFields = { [key: string]: string[] };
+
 export type TFormValue = string | number | boolean;
 
 export type TFormData<T extends string> = Record<T, TFormValue>;
@@ -42,9 +44,7 @@ class CForm<T extends string> {
 
   public getResponseErrors(
     formData: TFormData<T>,
-    failedFields: {
-      [key: string]: any;
-    }
+    failedFields: FailedFields
   ): TFormErrors<T> {
     const errors: Partial<TFormErrors<T>> = {};
     (Object.keys(formData) as Array<keyof TFormData<T>>).forEach((key) => {
@@ -65,7 +65,7 @@ class CForm<T extends string> {
           formData[key as T] === "" ||
           formData[key as T] === undefined)
       ) {
-        errors[key as T] = t("error.required");
+        errors[key as T] = t("Error.Required");
       }
     });
 

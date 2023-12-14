@@ -11,6 +11,15 @@
         "Label.Spanish": "Spanish",
         "Label.English": "English",
         "Label.Portuguese": "Portuguese",
-        "Login.Submit": "Login"
+        "Login.Submit": "Login",
+        "Login.Email": "Email",
+        "Login.Password": "Password",
+        "Login.ForgotPassword": "Forgot Password?",
+        "Login.Register": "Register",
+        "Login.Error": "Invalid email or password",
+        "Login.Error.Email": "Invalid email",
+        "Login.Error.Password": "Invalid password",
+        "Error.Required": "Required",
+        "Error": "Error"
     }
 }
