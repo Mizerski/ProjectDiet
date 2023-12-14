@@ -1,81 +1,181 @@
-import { useState } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { emailRegex } from "@src/Constants/Regex";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Alert, SafeAreaView, StyleSheet } from "react-native";
+import { userTable } from "../../../mock/db/user";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+import { CForm, TFormData, TFormErrors } from "../../Classes/Form";
+import {
+  LoginFormEmptyFields,
+  LoginFormFields,
+  LoginFormInitializeErrors,
+} from "./LoginForm";
+import isEmailValid from "../../Constants/Regex";
+import { useTranslation } from "react-i18next";
+import { DB, DBKeyString } from "../../Database/Storage";
+import CTextField from "../../Components/Forms/TextField";
+import LoadingButton from "../../Components/Buttons/ButtonLoading";
+import Colors from "../../../assets/styles/Colors";
+import { FormItemContainer } from "../../Components/Forms/FormContainer";
+import { IUser } from "../../Interface/User";
 
 export function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [wrongPassword, setWrongPassword] = useState(false);
+  const { t } = useTranslation();
   const navigation = useNavigation();
+  const [formData, setFormData] =
+    useState<TFormData<LoginFormFields>>(LoginFormEmptyFields);
+  const [formErrors, setFormErrors] = useState<TFormErrors<LoginFormFields>>(
+    LoginFormInitializeErrors()
+  );
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasSubmit, setHasSubmit] = useState(false);
 
-  const handleEmailInput = (props: string) => {
-    console.debug(props);
-
-    if (!emailRegex.test(email)) {
-      console.debug("Email inválido");
+  async function storeToken(
+    token: string,
+    rememberEmail: boolean,
+    email: string,
+    userId: number
+  ) {
+    await DB.setItemStr(DBKeyString.authToken, token);
+    await DB.setItemStr(DBKeyString.userID, userId.toString());
+    if (rememberEmail) {
+      await DB.setItemStr(DBKeyString.userEmail, email.toLowerCase());
+    } else {
+      await DB.removeItem(DBKeyString.userEmail);
     }
-    setEmail(props);
+  }
+
+  const validateFormRef = useRef<
+    (() => Partial<TFormErrors<LoginFormFields>>) | null
+  >(null);
+
+  const form = useMemo(() => {
+    return new CForm<LoginFormFields>(
+      [LoginFormFields.EMAIL, LoginFormFields.PASSWORD],
+      {
+        [LoginFormFields.EMAIL]: () =>
+          isEmailValid(formData.email as string) ? "" : t("Login.Error.Email"),
+      }
+    );
+  }, [formData.email, t]);
+
+  const cleanLoginForm = () => {
+    setHasSubmit(false);
+    if (!formData.rememberMe as boolean) {
+      form.updateField(setFormData, LoginFormFields.EMAIL, "");
+    }
+    form.updateField(setFormData, LoginFormFields.PASSWORD, "");
   };
 
-  const verifyUser = () => {
-    axios
-      .post("http://10.0.2.2:5000/login", {
-        email,
-        password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setWrongPassword(false);
-          console.debug(response.data.message);
-          navigation.navigate("Redirect");
-        } else {
-          setWrongPassword(true);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.error("Data:", error.response.data);
-          console.error("Status:", error.response.status);
-          console.error("Headers:", error.response.headers);
-        } else if (error.request) {
-          console.error("Request:", error.request);
-        } else {
-          console.error("Message:", error.message);
-        }
-        console.error("Config:", error.config);
-      });
+  const onLoginSuccess = async (user: Partial<IUser>) => {
+    setIsLoading(false);
+
+    const token = user.token || "token_simulado";
+    const userId = user.id;
+
+    if (token && userId) {
+      await storeToken(
+        token,
+        formData.rememberMe as boolean,
+        formData.email as string,
+        userId
+      );
+      cleanLoginForm();
+      navigation.navigate("MainTab", { screen: "HomeScreen" });
+    }
   };
 
+  const validateForm = useCallback(() => {
+    const errors: Partial<TFormErrors<LoginFormFields>> = form.validateForm(
+      formData,
+      t
+    );
+    setFormErrors(errors as TFormErrors<LoginFormFields>);
+    setHasError(form.formHasErrors(errors));
+    return errors;
+  }, [formData, t, form]);
+
+  useEffect(() => {
+    if (validateFormRef.current === null) {
+      const initializeData = async () => {
+        const savedEmail = await DB.getItemStr(DBKeyString.userEmail);
+        if (savedEmail) {
+          form.updateField(setFormData, LoginFormFields.EMAIL, savedEmail);
+          form.updateField(setFormData, LoginFormFields.REMEMBER_ME, true);
+        } else {
+          form.updateField(setFormData, LoginFormFields.REMEMBER_ME, false);
+        }
+      };
+      initializeData();
+    }
+
+    validateFormRef.current = validateForm;
+  }, [form, validateForm]);
+
+  useEffect(() => {
+    if (validateFormRef.current !== null && hasSubmit) {
+      validateForm();
+    }
+  }, [form, formData, hasSubmit, validateForm]);
+
+  const handleLoginPress = async () => {
+    setHasSubmit(true);
+    if (form.formHasErrors(formErrors)) {
+      return;
+    }
+    setIsLoading(true);
+    const user = userTable.find(
+      (user) =>
+        typeof formData.email === "string" &&
+        typeof formData.password === "string" &&
+        user.email.toLowerCase() === formData.email.toLowerCase() &&
+        user.password.toLowerCase() === formData.password.toLowerCase()
+    );
+    if (user) {
+      onLoginSuccess(user);
+    } else {
+      Alert.alert(t("Error"), t("Login.Error"));
+      setIsLoading(false);
+      setHasError(true);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text>Digite seu emaill</Text>
-        <TextInput
-          style={styles.emailInput}
-          onChangeText={handleEmailInput}
-          value={email}
+      <FormItemContainer>
+        <CTextField
+          form={form}
+          label={"Email"}
+          formData={formData}
+          field={LoginFormFields.EMAIL}
+          setFormData={setFormData}
+          formErrors={formErrors}
+          keyboardType="email-address"
+          isMandatory={true}
+          placeholder={t("Login.Email")}
+          inputContainerStyle={{
+            height: 50,
+          }}
         />
-        <Text>Digite sua senha</Text>
-        <TextInput
-          style={styles.emailInput}
-          onChangeText={setPassword}
-          value={password}
+        <CTextField
+          form={form}
+          placeholder={t("Login.Password")}
+          label={"Password"}
+          formData={formData}
           secureTextEntry={true}
+          field={LoginFormFields.PASSWORD}
+          setFormData={setFormData}
+          isMandatory={true}
+          formErrors={formErrors}
+          inputContainerStyle={{
+            height: 50,
+          }}
         />
-      </View>
-      {wrongPassword ? <Text>Senha incorreta</Text> : <></>}
-      <TouchableOpacity style={styles.btnLogin} onPress={verifyUser}>
-        <Text style={styles.buttonLoginText}>Login</Text>
-      </TouchableOpacity>
+        <LoadingButton
+          disabled={hasError}
+          isLoading={isLoading}
+          onPress={handleLoginPress}
+          submitText={t("Login.Submit")}
+        />
+      </FormItemContainer>
     </SafeAreaView>
   );
 }
@@ -83,30 +183,7 @@ export function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.background,
     justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  emailInput: {
-    marginTop: 10,
-    padding: 10,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    width: 300,
-  },
-  btnLogin: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: "#f333",
-    borderRadius: 5,
-    alignItems: "center",
-    width: 100,
-  },
-  buttonLoginText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });

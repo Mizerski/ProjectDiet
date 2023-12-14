@@ -1,21 +1,26 @@
-import i18n from "i18next";
 import "intl-pluralrules";
+import i18n, { TFunction } from "i18next";
 import { initReactI18next } from "react-i18next";
-import enUS from "./json/en-US.json";
-import esES from "./json/es-ES.json";
-import ptBR from "./json/pt-BR.json";
+import * as Localization from "expo-localization";
+import { SupportedLanguage, getLanguageResources } from "./Languages";
+
+const DEFAULT_LANGUAGE_TAG = "en";
+
+function getCurrentLanguageTag(): SupportedLanguage {
+  return i18n.language as SupportedLanguage;
+}
+
+function getBestLanguageTag() {
+  const bestLang = Localization.locale;
+  return bestLang || DEFAULT_LANGUAGE_TAG;
+}
 
 i18n.use(initReactI18next).init({
-  resources: {
-    "pt-BR": ptBR,
-    "en-US": enUS,
-    "es-ES": esES,
-  },
-  lng: "pt-BR",
-  fallbackLng: "en",
-  interpolation: {
-    escapeValue: false,
-  },
+  resources: getLanguageResources(),
+  fallbackLng: DEFAULT_LANGUAGE_TAG,
+  lng: getBestLanguageTag(),
 });
 
-export default i18n;
+export type TranslateFunc = TFunction<"translation", undefined>;
+
+export { i18n, getCurrentLanguageTag };

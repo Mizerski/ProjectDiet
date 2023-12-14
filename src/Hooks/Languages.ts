@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
+import { i18n } from "../i18n";
 
 export async function setLanguageData(value: string): Promise<void> {
   try {
