@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import Colors from "../../../assets/styles/Colors";
 
 type ButtonType = "submit" | "danger" | "action" | "busy";
 
@@ -33,14 +33,17 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
   let title = submitText;
   let buttonColor: string;
   let borderColor: string;
+  let textColor: string;
 
   if (isLoading || disabled) {
     buttonColor = Colors.gray;
     borderColor = Colors.gray;
+    textColor = Colors.black_alternative;
     if (isLoading) {
       title = loadingText || t("loading");
     }
   } else {
+    textColor = Colors.black_alternative;
     switch (type) {
       case "danger": {
         buttonColor = Colors.white;
@@ -53,8 +56,8 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
         break;
       }
       case "submit": {
-        buttonColor = Colors.main_green;
-        borderColor = Colors.main_green;
+        buttonColor = Colors.background;
+        borderColor = Colors.black;
         break;
       }
       case "busy": {
@@ -90,7 +93,7 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
             size={20}
           />
         ) : (
-          <Text style={[styles.text]}>{title}</Text>
+          <Text style={[styles.text, { color: textColor }]}>{title}</Text>
         )}
       </View>
     </TouchableOpacity>
@@ -115,7 +118,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: "bold",
-    color: Colors.black,
   },
 });
 export default LoadingButton;
