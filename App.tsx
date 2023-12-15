@@ -12,6 +12,7 @@ import "./src/i18n";
 import "./setupConsole";
 import Colors from "./assets/styles/Colors";
 enableScreens();
+import { Octicons, Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -36,7 +37,7 @@ const MainTabs: React.FC = () => {
           backgroundColor: Colors.tab_bar,
         },
         tabBarLabelStyle: {
-          fontSize: 15,
+          fontSize: 12,
           fontWeight: "bold",
         },
         tabBarInactiveTintColor: Colors.white,
@@ -49,12 +50,22 @@ const MainTabs: React.FC = () => {
       <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ title: t("Navbar.Home") }}
+        options={{
+          title: t("Navbar.Home"),
+          tabBarIcon: ({ color }) => (
+            <Octicons name="home" color={color} size={25} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ title: t("Navbar.Settings") }}
+        options={{
+          title: t("Navbar.Settings"),
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="settings-outline" color={color} size={25} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
