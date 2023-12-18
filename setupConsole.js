@@ -1,15 +1,17 @@
 import { DEBUG_MODE } from "@env";
 import { Platform } from "react-native";
-import { getLanguageData } from "./src/Hooks/Languages";
 
-if (DEBUG_MODE === "true") {
-  console.debug("------------------- DEBUG --------------------");
-  console.debug("DEBUG MODE ON");
-  console.debug("Platform.OS:", Platform.OS, Platform.Version);
-  getLanguageData().then((storedLanguage) => {
-    console.debug("Stored language:", storedLanguage);
-  });
-} else {
+export const logDebugInfo = (data) => {
+  if (DEBUG_MODE === "true") {
+    console.debug("------------------- DEBUG --------------------");
+    console.debug("DEBUG MODE ON");
+    console.debug("Platform.OS:", Platform.OS, Platform.Version);
+    Object.entries(data).forEach(([key, value]) => {
+      console.debug(`${key}:`, value);
+    });
+  }
+};
+if (DEBUG_MODE !== "true") {
   console.debug = () => {};
   console.log = () => {};
   console.warn = () => {};

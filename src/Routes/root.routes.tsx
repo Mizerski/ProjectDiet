@@ -4,7 +4,7 @@ export type RootStackParamList = {
   Home: undefined;
   Settings: undefined;
   Login: undefined;
-  Redirect: undefined;
+  MainTab: { screen: string };
 };
 
 export const RootStack = createStackNavigator<RootStackParamList>();

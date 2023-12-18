@@ -1,5 +1,5 @@
 {
-    "translation": {
+    "en": {
         "Button.Barcode": "Read Barcode",
         "Camera.Permission": "Permission is required to use the camera in this app",
         "Camera.Title": "Open Camera",
@@ -10,6 +10,16 @@
         "Text.SelectLanguage": "Select Language",
         "Label.Spanish": "Spanish",
         "Label.English": "English",
-        "Label.Portuguese": "Portuguese"
+        "Label.Portuguese": "Portuguese",
+        "Login.Submit": "Login",
+        "Login.Email": "Email",
+        "Login.Password": "Password",
+        "Login.ForgotPassword": "Forgot Password?",
+        "Login.Register": "Register",
+        "Login.Error": "Invalid email or password",
+        "Login.Error.Email": "Invalid email",
+        "Login.Error.Password": "Invalid password",
+        "Error.Required": "Required",
+        "Error": "Error"
     }
 }

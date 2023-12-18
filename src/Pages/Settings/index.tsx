@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "../../Components/Dropdown";
 import { useLanguage } from "../../Hooks/Languages";
 import { dropdownItems } from "../../Constants/DropdownItems";
+import React from "react";
 
 export function SettingsScreen() {
   const { t, language, handleLanguageChange } = useLanguage();
